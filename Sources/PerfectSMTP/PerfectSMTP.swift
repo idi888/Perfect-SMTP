@@ -20,7 +20,7 @@
 import Foundation
 import PerfectCURL
 import PerfectLib
-import PerfectHTTP
+//import PerfectHTTP
 
 /// SMTP Common Errors
 public enum SMTPError:Error {
