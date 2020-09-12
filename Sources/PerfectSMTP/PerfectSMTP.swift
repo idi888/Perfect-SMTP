@@ -271,29 +271,36 @@ public class EMail {
 	private func encode(path: String) throws -> String? {
 		let fd = File(path)
 		try fd.open(.read)
-        guard let buffer = try fd.readSomeBytes(count: fd.size).encode(.base64) else {
-			fd.close()
-			throw SMTPError.INVALID_ENCRYPTION
-		}
+        
+//        guard let buffer = try fd.readSomeBytes(count: fd.size).encode(.base64) else {
+//			fd.close()
+//			throw SMTPError.INVALID_ENCRYPTION
+//		}
+                guard let buffer = try fd.readSomeBytes(count: fd.size).encode(.base64) else {
+                    fd.close()
+                    throw SMTPError.INVALID_ENCRYPTION
+                }
 		if self.debug {
 			print("encode \(fd.size) -> \(buffer.count)")
 		}
-		var wraped = [UInt8]()
-		let szline = 76
-		var cursor = 0
-		let newline:[UInt8] = [13, 10]
-		while cursor < buffer.count {
-			var mark = cursor + szline
-			if mark >= buffer.count {
-				mark = buffer.count
-			}
-			wraped.append(contentsOf: buffer[cursor ..< mark])
-			wraped.append(contentsOf: newline)
-			cursor += szline
-		}
-		fd.close()
-		wraped.append(0)
-		return String(validatingUTF8: wraped)
+//
+        let data = Data(buffer)
+//		var wraped = [UInt8]()
+//		let szline = 76
+//		var cursor = 0
+//		let newline:[UInt8] = [13, 10]
+//		while cursor < buffer.count {
+//			var mark = cursor + szline
+//			if mark >= buffer.count {
+//				mark = buffer.count
+//			}
+//			wraped.append(contentsOf: buffer[cursor ..< mark])
+//			wraped.append(contentsOf: newline)
+//			cursor += szline
+//		}
+//		fd.close()
+//		wraped.append(0)
+        return data.base64EncodedString()
 	}
 	
 	private func makeBody() throws -> (String, String) {
