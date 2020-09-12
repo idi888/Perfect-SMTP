@@ -234,6 +234,12 @@ public class EMail {
 	@discardableResult
 	private func attach(path: String, mimeType: String) -> String {
 		// extract file name from full path
+        if self.debug {
+            
+            print(#function, "Attachment location: \(path)")
+            print(#function, "Attachment mimeType: \(mimeType)")
+        }
+        
 		let file = path.fileNameWithoutPath
 		guard !file.isEmpty else {
 			return ""
@@ -245,7 +251,7 @@ public class EMail {
 			}
 			let disposition = "attachment"
 			if self.debug {
-				print("\(data.utf8.count) bytes attached")
+				print(#function,"\(data.utf8.count) bytes attached")
 			}
 			// pack it up to an MIME part
 			return "--\(boundary)\r\nContent-Type: \(mimeType); name=\"\(file)\"\r\n"
@@ -265,7 +271,7 @@ public class EMail {
 	private func encode(path: String) throws -> String? {
 		let fd = File(path)
 		try fd.open(.read)
-		guard let buffer = try fd.readSomeBytes(count: fd.size).encode(.base64) else {
+        guard let buffer = try fd.readSomeBytes(count: fd.size).encode(.base64) else {
 			fd.close()
 			throw SMTPError.INVALID_ENCRYPTION
 		}
@@ -352,6 +358,10 @@ public class EMail {
 				body += "--\(boundary)\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n\(content)\r\n"
 			}
 		}
+        
+        if self.debug {
+            print(#function, "All Attachements", attachments)
+        }
 		// add the attachements
 		body += attachments.map { attach(path: $0, mimeType: MIMEType.forExtension($0.suffix)) }.joined(separator: "")
 		// end of the attachements
