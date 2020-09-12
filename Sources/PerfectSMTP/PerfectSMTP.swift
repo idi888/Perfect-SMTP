@@ -393,6 +393,7 @@ public class EMail {
 	/// - throws:
 	/// SMTPErrors
 	public func send(completion: ((Int, String, String) -> ())? = nil) throws {
+        print("DEBUG: \(self.debug)" )
 		let (body, uuid) = try makeBody()
 		let response = try getResponse(body)
 		let code = response.responseCode
