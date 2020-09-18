@@ -8,9 +8,9 @@ let package = Package(name: "PerfectSMTP",
     dependencies: [
 		// .package(url: "https://github.com/PerfectlySoft/Perfect-CURL.git", from: "5.0.0"),
 		
-		.package(path: "~/Dev/Perfect/Perfect-CURL"),
+		.package(path: "../Perfect-CURL"),
 		// .package(url: "https://github.com/PerfectlySoft/Perfect-Crypto.git", from: "4.0.0"),
-		.package(path: "~/Dev/Perfect/Perfect-Crypto"),
+		.package(path: "../Perfect-Crypto"),
 		.package(url: "https://github.com/PerfectlySoft/Perfect-MIME.git", from: "1.0.0"),
 	],
     targets: [
