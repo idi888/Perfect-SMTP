@@ -412,7 +412,6 @@ public class EMail {
 	public func send(completion: ((Int, String, String) -> ())? = nil) throws {
         print("DEBUG: \(self.debug)" )
 		let (body, uuid) = try makeBody()
-        print(body)
 		let response = try getResponse(body)
 		let code = response.responseCode
 		if let c = completion {
